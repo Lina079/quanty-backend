@@ -37,7 +37,61 @@ Quanty es una aplicación de finanzas personales basada en el sistema de "cajas/
 - 🏦 **Ahorro** - Reserva de tranquilidad y libertad futura
 - 📈 **Inversión** - Multiplicación y crecimiento patrimonial
 
-**Principio fundamental:** *"Paga primero a ti mismo"* - Antes de gastar, asegura tu ahorro e inversión.
+**Principio fundamental:** *"Pagate primero a ti mismo"* - Antes de gastar, asegura tu ahorro e inversión.
+
+---
+
+## 🔗 API Third-Party: CoinGecko
+
+**Propósito en Quanty:** Obtener precios reales de criptomonedas para mostrar en la sección "Inversiones" del MVP.
+
+**API utilizada:** CoinGecko API v3  
+**Documentación:** https://www.coingecko.com/en/api/documentation
+
+### Características
+- ✅ 100% gratuita
+- ✅ NO requiere API key
+- ✅ Límite: 10-50 requests/minuto (suficiente para MVP)
+- ✅ Datos en tiempo real
+
+### Endpoint utilizado
+```
+GET https://api.coingecko.com/api/v3/simple/price
+```
+
+**Parámetros:**
+- `ids`: bitcoin,ethereum,gold (activos a consultar)
+- `vs_currencies`: eur (divisa de referencia)
+
+**Ejemplo de request:**
+```
+https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=eur
+```
+
+**Ejemplo de respuesta:**
+```json
+{
+  "bitcoin": {
+    "eur": 35420
+  },
+  "ethereum": {
+    "eur": 1950
+  }
+}
+```
+
+### Implementación en Quanty
+
+**Archivo:** `src/utils/CoinGeckoApi.js`
+
+**Uso:** 
+- Fetch de precios al cargar la página "Inversiones"
+- Actualización cada 5 minutos (opcional)
+- Mostrar precios actuales de BTC, ETH en lugar de % hardcodeados
+
+**Manejo de errores:**
+- Si falla el fetch, mostrar mensaje: "No se pudieron cargar los precios actuales"
+- Fallback a valores hardcodeados si es necesario
 
 ---
 
