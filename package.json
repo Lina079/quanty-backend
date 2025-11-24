@@ -1,0 +1,49 @@
+{
+  "name": "quanty-backend",
+  "version": "1.0.0",
+  "description": "API REST para Quanty - App de educación financiera",
+  "keywords": [
+    "finance",
+    "kakeibo",
+    "api",
+    "express"
+  ],
+  "homepage": "https://github.com/Lina079/quanty-backend#readme",
+  "bugs": {
+    "url": "https://github.com/Lina079/quanty-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lina079/quanty-backend.git"
+  },
+  "license": "ISC",
+  "author": "Lina Castro",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "celebrate": "^15.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "express-winston": "^4.2.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.0.0",
+    "validator": "^13.15.23",
+    "winston": "^3.18.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "nodemon": "^3.1.11"
+  }
+}
