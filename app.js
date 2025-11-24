@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 //Rutas
 const routes = require('./routes');
@@ -49,6 +50,7 @@ app.use(limiter);
 
 // Parsear JSON en el body de las requests
 app.use(express.json());
+app.use(requestLogger);
 
 // ============================================
 // RUTA DE PRUEBA
@@ -66,6 +68,8 @@ app.get('/', (req, res) => {
 app.use(routes);
 
 //Manejo de errores
+app.use(errorLogger);
+
 app.use((req, res) => {
   res.status(404).json({ message: 'Ruta no encontrada' });
 });
