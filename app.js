@@ -1,7 +1,3 @@
-// ============================================
-// IMPORTACIONES
-// ============================================
-
 // Cargar variables de entorno PRIMERO (antes de todo)
 require('dotenv').config();
 
@@ -11,24 +7,19 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require('./middlewares/errorHandler');
 
 //Rutas
 const routes = require('./routes');
 
-// ============================================
-// CONFIGURACIÓN
-// ============================================
 
 // Usar variables de entorno o valores por defecto
 const { PORT = 3000, MONGODB_URI = 'mongodb://localhost:27017/quanty' } = process.env;
 
 // Crear aplicación Express
 const app = express();
-
-// ============================================
-// MIDDLEWARES DE SEGURIDAD
-// ============================================
 
 // Helmet: añade headers de seguridad HTTP
 app.use(helmet());
@@ -44,17 +35,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// ============================================
-// MIDDLEWARES DE PARSING
-// ============================================
-
 // Parsear JSON en el body de las requests
 app.use(express.json());
 app.use(requestLogger);
-
-// ============================================
-// RUTA DE PRUEBA
-// ============================================
 
 app.get('/', (req, res) => {
   res.json({
@@ -69,19 +52,11 @@ app.use(routes);
 
 //Manejo de errores
 app.use(errorLogger);
-
 app.use((req, res) => {
   res.status(404).json({ message: 'Ruta no encontrada' });
 });
-
-app.use((err, req, res, next) => {
-  console.error('Error:', err.message);
-  res.status(500).json({ message: 'Error interno del servidor' });
-});
-
-// ============================================
-// CONEXIÓN A MONGODB Y ARRANQUE DEL SERVIDOR
-// ============================================
+app.use(errors());
+app.use(errorHandler);
 
 mongoose
   .connect(MONGODB_URI)
