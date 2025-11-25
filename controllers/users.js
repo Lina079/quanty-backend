@@ -22,7 +22,7 @@ const createUser = async (req, res, next) => {
     });
 
     // Responder SIN la contraseña
-    res.status(201).json({
+    return res.status(201).json({
       _id: user._id,
       email: user.email,
       name: user.name,
@@ -38,7 +38,7 @@ const createUser = async (req, res, next) => {
     if (err.name === 'ValidationError') {
       return res.status(400).json({ message: err.message });
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -66,9 +66,9 @@ const loginUser = async (req, res, next) => {
     // Generar JWT (expira en 7 días)
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-    res.json({ token });
+    return res.json({ token });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -83,9 +83,9 @@ const getCurrentUser = async (req, res, next) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    res.json(user);
+    return res.json(user);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -106,12 +106,12 @@ const updateUser = async (req, res, next) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    res.json(user);
+    return res.json(user);
   } catch (err) {
     if (err.name === 'ValidationError') {
       return res.status(400).json({ message: err.message });
     }
-    next(err);
+    return next(err);
   }
 };
 

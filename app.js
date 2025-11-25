@@ -11,9 +11,8 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 
-//Rutas
+// Rutas
 const routes = require('./routes');
-
 
 // Usar variables de entorno o valores por defecto
 const { PORT = 3000, MONGODB_URI = 'mongodb://localhost:27017/quanty' } = process.env;
@@ -47,10 +46,10 @@ app.get('/', (req, res) => {
   });
 });
 
-//Rutas de la API
+// Rutas de la API
 app.use(routes);
 
-//Manejo de errores
+// Manejo de errores
 app.use(errorLogger);
 app.use((req, res) => {
   res.status(404).json({ message: 'Ruta no encontrada' });

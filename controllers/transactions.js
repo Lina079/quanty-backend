@@ -9,9 +9,9 @@ const getTransactions = async (req, res, next) => {
     const transactions = await Transaction.find({ owner: req.user._id })
       .sort({ fecha: -1 }); // Ordenar por fecha descendente (más reciente primero)
 
-    res.json(transactions);
+    return res.json(transactions);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -20,7 +20,9 @@ const getTransactions = async (req, res, next) => {
 // ============================================
 const createTransaction = async (req, res, next) => {
   try {
-    const { tipo, monto, categoria, descripcion, fecha } = req.body;
+    const {
+      tipo, monto, categoria, descripcion, fecha,
+    } = req.body;
 
     const transaction = await Transaction.create({
       tipo,
@@ -31,12 +33,12 @@ const createTransaction = async (req, res, next) => {
       owner: req.user._id, // Asignar al usuario autenticado
     });
 
-    res.status(201).json(transaction);
+    return res.status(201).json(transaction);
   } catch (err) {
     if (err.name === 'ValidationError') {
       return res.status(400).json({ message: err.message });
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -63,9 +65,9 @@ const deleteTransaction = async (req, res, next) => {
     // Eliminar
     await Transaction.findByIdAndDelete(id);
 
-    res.json({ message: 'Transacción eliminada' });
+    return res.json({ message: 'Transacción eliminada' });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 

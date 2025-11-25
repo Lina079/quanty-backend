@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
     req.user = payload;
 
     // Continuar al siguiente middleware/controlador
-    next();
+    return next();
   } catch (err) {
     return res.status(401).json({ message: 'Token inválido o expirado' });
   }

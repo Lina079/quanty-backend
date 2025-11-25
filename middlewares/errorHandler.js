@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   if (err.joi) {
     return res.status(400).json({
@@ -17,12 +18,12 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({ message: 'Token inválido' });
   }
-  if (err.name === 'TokenExpirerdError') {
+  if (err.name === 'TokenExpiredError') {
     return res.status(401).json({ message: 'Token expirado' });
   }
 
   console.error('Error no manejado:', err);
-  res.status(500).json({ message: 'Error interno del servidor' });
+  return res.status(500).json({ message: 'Error interno del servidor' });
 };
 
 module.exports = errorHandler;
