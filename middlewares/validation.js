@@ -50,6 +50,10 @@ const validateTransaction = celebrate({
     categoria: Joi.string().required().max(50),
     descripcion: Joi.string().max(200).allow(''),
     fecha: Joi.date(),
+    // Campos para inversiones (opcionales)
+    activo: Joi.string().max(50),
+    cantidad: Joi.number().min(0),
+    precioCompra: Joi.number().min(0),
   }),
 });
 

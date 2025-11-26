@@ -35,7 +35,21 @@ const transactionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    select: false, // No devolver por defecto (seguridad)
+    select: false,
+  },
+  // Campos específicos para inversiones (opcionales)
+  activo: {
+    type: String,
+    trim: true,
+    maxlength: [50, 'El activo no puede tener más de 50 caracteres'],
+  },
+  cantidad: {
+    type: Number,
+    min: [0, 'La cantidad debe ser mayor o igual a 0'],
+  },
+  precioCompra: {
+    type: Number,
+    min: [0, 'El precio de compra debe ser mayor o igual a 0'],
   },
 }, {
   timestamps: true,

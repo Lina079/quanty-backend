@@ -1,8 +1,6 @@
 const Transaction = require('../models/transaction');
 
-// ============================================
-// OBTENER TRANSACCIONES DEL USUARIO
-// ============================================
+
 const getTransactions = async (req, res, next) => {
   try {
     // Buscar todas las transacciones del usuario autenticado
@@ -15,23 +13,27 @@ const getTransactions = async (req, res, next) => {
   }
 };
 
-// ============================================
-// CREAR TRANSACCIÓN
-// ============================================
 const createTransaction = async (req, res, next) => {
   try {
     const {
-      tipo, monto, categoria, descripcion, fecha,
+      tipo, monto, categoria, descripcion, fecha, activo, cantidad, precioCompra,
     } = req.body;
 
-    const transaction = await Transaction.create({
+    const transactionData = {
       tipo,
       monto,
       categoria,
       descripcion,
       fecha: fecha || Date.now(),
       owner: req.user._id, // Asignar al usuario autenticado
-    });
+    };
+
+    // Agregar campos de inversión solo si existen
+    if (activo) transactionData.activo = activo;
+    if (cantidad !== undefined) transactionData.cantidad = cantidad;
+    if (precioCompra !== undefined) transactionData.precioCompra = precioCompra;
+
+    const transaction = await Transaction.create(transactionData);
 
     return res.status(201).json(transaction);
   } catch (err) {
@@ -42,9 +44,6 @@ const createTransaction = async (req, res, next) => {
   }
 };
 
-// ============================================
-// ELIMINAR TRANSACCIÓN
-// ============================================
 const deleteTransaction = async (req, res, next) => {
   try {
     const { id } = req.params;
