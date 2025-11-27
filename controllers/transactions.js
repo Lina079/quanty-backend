@@ -1,6 +1,5 @@
 const Transaction = require('../models/transaction');
 
-
 const getTransactions = async (req, res, next) => {
   try {
     // Buscar todas las transacciones del usuario autenticado
