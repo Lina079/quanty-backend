@@ -57,14 +57,17 @@ app.use((req, res) => {
 app.use(errors());
 app.use(errorHandler);
 
+// Conectar a MongoDB
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log('✅ Conectado a MongoDB');
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-    });
   })
   .catch((err) => {
     console.error('❌ Error conectando a MongoDB:', err.message);
   });
+
+// Iniciar servidor SIEMPRE (independiente de MongoDB)
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+});
