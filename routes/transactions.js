@@ -1,10 +1,14 @@
 const router = require('express').Router();
+const auth = require('../middlewares/auth');
 const {
   getTransactions,
   createTransaction,
   deleteTransaction,
 } = require('../controllers/transactions');
 const { validateTransaction, validateId } = require('../middlewares/validation');
+
+// Aplicar auth a TODAS las rutasa de transacciones
+router.use(auth);
 
 // GET /transactions - Obtener todas las transacciones del usuario
 router.get('/', getTransactions);
